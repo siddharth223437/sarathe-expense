@@ -34,7 +34,7 @@ build/
 
 *.mvn/
 mvnw.cmd
-mvnv/
+mvnv
 *.iml
 *.idea
 
