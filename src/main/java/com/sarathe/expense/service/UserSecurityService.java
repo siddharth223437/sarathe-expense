@@ -19,7 +19,7 @@ public class UserSecurityService implements UserDetailsService {
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users users = usersRepository.findUsersByEmailOrUsernameOrPhoneNum(s);
+        Users users = usersRepository.findUsersByUsername(s);
         if(users == null){
             throw new UsernameNotFoundException("User not found " + s);
         }
