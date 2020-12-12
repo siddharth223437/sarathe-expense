@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @SpringBootApplication
@@ -30,7 +31,14 @@ public class SaratheExpenseApplication implements CommandLineRunner {
 	}
 
 	@Override
+//	@Transactional
 	public void run(String... args) throws Exception {
+//
+//		Users users = usersRepository.findUsersByUsername("sid223437");
+//		users.setEnabled(true);
+
+//		usersRepository.save(users);
+
 //		Roles admin = rolesRepository.findRolesByRoleName("ADMIN");
 //		Users users = new Users();
 //		users.setEmail("sarathe@mail.usf.edu");

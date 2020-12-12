@@ -25,9 +25,17 @@ public class Users  extends Persistent implements UserDetails {
     private String phoneNum;
     @Column(name = "image_url")
     private String imageUrl;
+    private boolean isAccountNonLocked;
+    private boolean isEnabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Roles> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Expense> expenses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Account> accounts = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,7 +59,7 @@ public class Users  extends Persistent implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.isAccountNonLocked;
     }
 
     @Override
@@ -61,7 +69,7 @@ public class Users  extends Persistent implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 
     public void setUsername(String username) {
@@ -118,5 +126,13 @@ public class Users  extends Persistent implements UserDetails {
 
     public void addRoles(Roles roles) {
         this.roles.add(roles);
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }

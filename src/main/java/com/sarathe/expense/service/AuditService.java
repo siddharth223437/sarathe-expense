@@ -10,9 +10,11 @@ import java.util.Optional;
 public class AuditService implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new UsernameNotFoundException("User is not logged in");
+            return Optional.of("guest");
+//            throw new UsernameNotFoundException("User is not logged in");
         }
         return Optional.of(authentication.getName());
     }

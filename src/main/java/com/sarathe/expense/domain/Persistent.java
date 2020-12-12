@@ -32,4 +32,24 @@ public class Persistent {
     @LastModifiedBy
     @Column(name = "updated_by")
     private String updatedBy;
+
+    public long getId() {
+        return id;
+    }
+
+    public LocalDateTime getCreatedTs() {
+        return createdTs;
+    }
+
+    public LocalDateTime getUpdatedTs() {
+        return updatedTs;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
 }
