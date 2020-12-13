@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ExpenseService extends SaratheAbstract {
@@ -113,6 +111,7 @@ public class ExpenseService extends SaratheAbstract {
             log.info("either account or category is null");
             throw new RuntimeException("either account or category is null");
         }
+        expense.setExpenseDate(expenseDto.getDate());
         expense.setType(expenseDto.getType());
         expense.setUsers(getUser());
         expense.setAccount(account);
@@ -121,5 +120,33 @@ public class ExpenseService extends SaratheAbstract {
         expense.setNotes(expenseDto.getNotes());
         expenseRepository.save(expense);
         log.info("Expense saved to database ---- " + expense.getId());
+    }
+
+    public List<ExpenseDto> searchExpense(ExpenseDto.ExpenseSearchDto expenseSearchDto){
+        List<ExpenseDto> expenseDtos = new ArrayList<>();
+        List<Expense> expenses = expenseRepository.findExpenseByExpenseDateBetween(expenseSearchDto.getFromDate(), expenseSearchDto.getToDate());
+        expenses.forEach(e -> {
+            ExpenseDto dto = new ExpenseDto();
+            dto.setDate(e.getExpenseDate());
+            dto.setAmount(e.getExpenseAmount());
+            dto.setAccountId(e.getAccount().getId());
+            dto.setAccountName(e.getAccount().getAccountName());
+            dto.setCategoryId(e.getCategory().getId());
+            dto.setCategoryName(e.getCategory().getCategoryName());
+            dto.setExpenseId(e.getId());
+            dto.setType(e.getType());
+            expenseDtos.add(dto);
+        });
+
+        expenseDtos.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+
+        return expenseDtos;
+    }
+
+    public void deleteExpense(Long expenseId) throws Exception{
+        Expense expense = expenseRepository.findById(expenseId).orElse(null);
+        if(expense != null){
+            expenseRepository.delete(expense);
+        }
     }
 }

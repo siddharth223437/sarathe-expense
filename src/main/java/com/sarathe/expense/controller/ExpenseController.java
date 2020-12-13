@@ -72,7 +72,7 @@ public class ExpenseController {
             }
 
         }catch (Exception e){
-            log.error("Error in saving/updating acc !! " +e.getMessage());
+            log.error("Error in saving/updating account !! " +e.getMessage());
             map.put("resp", "error");
             return map;
         }
@@ -113,5 +113,23 @@ public class ExpenseController {
             resp.put("resp","error");
         }
         return resp;
+    }
+
+    @PostMapping("/expense/search")
+    public List<ExpenseDto> findExpenseBetweenDates(@RequestBody ExpenseDto.ExpenseSearchDto expenseSearchDto){
+        return expenseService.searchExpense(expenseSearchDto);
+    }
+
+    @DeleteMapping("/expense/delete/{id}")
+    public Map<String,String> deleteExpense(@PathVariable("id") Long expenseId){
+        Map<String,String> map = new HashMap<>();
+        try{
+            expenseService.deleteExpense(expenseId);
+            map.put("resp","success");
+        }catch (Exception e){
+            log.error("Error in deleting expense --- " +expenseId);
+            map.put("resp","error");
+        }
+        return map;
     }
 }
