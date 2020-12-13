@@ -72,7 +72,7 @@ public class ExpenseController {
             }
 
         }catch (Exception e){
-            log.error("Error in saving/updating account !! " +e.getMessage());
+            log.error("Error in saving/updating acc !! " +e.getMessage());
             map.put("resp", "error");
             return map;
         }
