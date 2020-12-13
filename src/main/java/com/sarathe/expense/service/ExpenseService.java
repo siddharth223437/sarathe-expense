@@ -2,10 +2,13 @@ package com.sarathe.expense.service;
 
 import com.sarathe.expense.domain.Account;
 import com.sarathe.expense.domain.Category;
+import com.sarathe.expense.domain.Expense;
 import com.sarathe.expense.dto.AccountDto;
 import com.sarathe.expense.dto.CategoryDto;
+import com.sarathe.expense.dto.ExpenseDto;
 import com.sarathe.expense.repository.AccountRepository;
 import com.sarathe.expense.repository.CategoryRepository;
+import com.sarathe.expense.repository.ExpenseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class ExpenseService extends SaratheAbstract {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private ExpenseRepository expenseRepository;
 
     public void addUpdateCategory(CategoryDto dto) throws Exception{
         Category category;
@@ -66,11 +72,10 @@ public class ExpenseService extends SaratheAbstract {
         }else{
             account = accountRepository.findById(dto.getAccountId()).orElse(null);
         }
-
-        if(account == null){
-            account = new Account();
-        }
-        account.setAccountName(dto.getAccountName());
+       if(account == null){
+           account = new Account();
+       }
+       account.setAccountName(dto.getAccountName());
         account.setUsers(getUser());
         accountRepository.save(account);
        log.info("category saved successfully ----- " + account.getId());
@@ -89,5 +94,32 @@ public class ExpenseService extends SaratheAbstract {
 
     public void deleteAccount(Long accountId) throws Exception{
         accountRepository.findById(accountId).ifPresent(account -> accountRepository.delete(account));
+    }
+
+    public void addUpdateExpense(ExpenseDto expenseDto) throws RuntimeException{
+        Expense expense = null;
+        if(expenseDto.getExpenseId() == null){
+            expense = new Expense();
+        }else{
+            expense = expenseRepository.findById(expenseDto.getExpenseId()).orElse(null);
+            if(expense == null){
+                log.info("expense cannot be null");
+                throw new RuntimeException("Expense is null");
+            }
+        }
+        Account account = accountRepository.findById(expenseDto.getAccountId()).orElse(null);
+        Category category = categoryRepository.findById(expenseDto.getCategoryId()).orElse(null);
+        if(account == null || category == null){
+            log.info("either account or category is null");
+            throw new RuntimeException("either account or category is null");
+        }
+        expense.setType(expenseDto.getType());
+        expense.setUsers(getUser());
+        expense.setAccount(account);
+        expense.setCategory(category);
+        expense.setExpenseAmount(expenseDto.getAmount());
+        expense.setNotes(expenseDto.getNotes());
+        expenseRepository.save(expense);
+        log.info("Expense saved to database ---- " + expense.getId());
     }
 }

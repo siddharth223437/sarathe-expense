@@ -2,6 +2,7 @@ package com.sarathe.expense.controller;
 
 import com.sarathe.expense.dto.AccountDto;
 import com.sarathe.expense.dto.CategoryDto;
+import com.sarathe.expense.dto.ExpenseDto;
 import com.sarathe.expense.service.ExpenseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,5 +100,18 @@ public class ExpenseController {
         }
         map.put("resp","error");
         return  map;
+    }
+
+    @PostMapping("/expense")
+    public Map<String,String> addUpdateExpense(@RequestBody ExpenseDto expenseDto){
+        Map<String,String> resp = new HashMap<>();
+        try{
+            expenseService.addUpdateExpense(expenseDto);
+            resp.put("resp","success");
+        }catch (Exception e){
+            log.error("Error in saving expense ---- " + e.getMessage());
+            resp.put("resp","error");
+        }
+        return resp;
     }
 }
