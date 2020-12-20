@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private static String[] IGNORE_URL = {
-
+            "/actuator/**"
     };
 
     @Override
