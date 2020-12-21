@@ -11,4 +11,7 @@ phases:
 artifacts:
   files:
     - sarathe-expense.jar
+    - .ebextensions/**/*
+    - .platform/**/*
+    - Procfile
 #  base-directory: 'target'
