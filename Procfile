@@ -1,0 +1,1 @@
+web: java -jar sarathe-expense.jar

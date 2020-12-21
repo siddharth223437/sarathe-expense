@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  #  install:
+  #    runtime-versions:
+  #      java: corretto8
+  post_build:
+    commands:
+      - mvn clean package
+      - mv target/sarathe-expense.jar sarathe-expense.jar
+artifacts:
+  files:
+    - sarathe-expense.jar
+#  base-directory: 'target'
