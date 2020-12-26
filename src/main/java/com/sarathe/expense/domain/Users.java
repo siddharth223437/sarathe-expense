@@ -27,6 +27,8 @@ public class Users  extends Persistent implements UserDetails {
     private String imageUrl;
     private boolean isAccountNonLocked;
     private boolean isEnabled;
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Plaid> plaids = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Roles> roles = new ArrayList<>();
@@ -134,5 +136,13 @@ public class Users  extends Persistent implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public List<Plaid> getPlaids() {
+        return plaids;
+    }
+
+    public void addPlaids(Plaid plaids) {
+        this.plaids.add(plaids);
     }
 }

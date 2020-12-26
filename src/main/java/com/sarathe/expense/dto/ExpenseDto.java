@@ -98,6 +98,7 @@ public class ExpenseDto extends UserDto {
     public static class ExpenseSearchDto {
         private LocalDate toDate;
         private LocalDate fromDate;
+        private String plaidAccountId;
 
         public LocalDate getToDate() {
             return toDate;
@@ -113,6 +114,14 @@ public class ExpenseDto extends UserDto {
 
         public void setFromDate(LocalDate fromDate) {
             this.fromDate = fromDate;
+        }
+
+        public String getPlaidAccountId() {
+            return plaidAccountId;
+        }
+
+        public void setPlaidAccountId(String plaidAccountId) {
+            this.plaidAccountId = plaidAccountId;
         }
     }
 }

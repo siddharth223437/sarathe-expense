@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +25,11 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
         securedEnabled = true,
         jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
 
     @Autowired
     private UserSecurityService userSecurityService;

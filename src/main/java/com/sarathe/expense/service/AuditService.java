@@ -13,7 +13,6 @@ public class AuditService implements AuditorAware<String> {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
-//            return Optional.of("guest");
             throw new UsernameNotFoundException("User is not logged in");
         }
         return Optional.of(authentication.getName());
